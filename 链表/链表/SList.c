@@ -10,7 +10,7 @@ void SListInit(SList* plist)
 	plist->first = NULL;
 }
 //销毁
-void SListInit(SList* plist)
+void SListDestory(SList* plist)
 {
 	SLNode*next;
 	SLNode *cur = plist->first;
@@ -77,9 +77,12 @@ void SListpushAfter(SList* plist, SLDataType x)
 
 }
 //在pos后边插入
-void SListIntsertAfter(SList* plist, SLNode* pos, SLDataType x)
+void SListInsertAfter(SList* plist, SLNode* pos, SLDataType x)
 {
-	assert(plist);
+	SLNode *node = SLBuyNode(x);
+	node->next = pos->next;
+	pos->next = node;
+	/*assert(plist);
 	SLNode*cur;
 	SLNode*tmp;
 	cur = plist->first;
@@ -94,7 +97,7 @@ void SListIntsertAfter(SList* plist, SLNode* pos, SLDataType x)
 		cur = cur->next;
 	}
 	tmp->next = cur->next;
-	cur->next = tmp;
+	cur->next = tmp;*/
 }
 //头删
 void SListpopFront(SList* plist)
@@ -147,19 +150,63 @@ void SListpopBack(SList* plist)
 
 }
 //将pos后面的加点删除
-void SListEraseAfter(SList* plist, SList* pos)
+void SListEraseAfter(SList* plist, SLNode* pos)
 {
-
+	SLNode*next = pos->next;
+	pos->next = next->next;
+	free(next);
+	/*assert(plist);
+	for (SLNode*cur = plist->first; cur->next != NULL; cur = cur->next){
+		if (cur == pos){
+			SLNode*tmp = cur->next;
+			cur->next = cur->next->next;
+			free(tmp);
+		}
+	}
+*/
 }
 ////查找
-//SLDataType* SListFind(SList* plist, SLDataType x)
+SLNode* SListFind(const SList *plist, SLDataType value)
+{
+
+	for (SLNode *cur = plist->first; cur->next != NULL; cur = cur->next){
+		if (cur->value == value)
+			return cur;
+	}
+	return NULL;
+}
 //打印
 void SListPrint(const SList* plist)
 {
 	for (SLNode *cur = plist->first; cur != NULL; cur = cur->next)
 	{
 		printf("%d->", cur->value);
-		system("pause");
 	}
 	printf("NULL");
+	system("pause");
+}
+//改
+void SLUpdate(SLNode *node, SLDataType value){
+	node->value = value;
+}
+
+//在pos前插入
+void SLInsertBefore(SList*plist, SLNode*pos, SLDataType value){
+	assert(plist);
+	assert(plist->first->next);
+	SLNode*tmp = plist->first;
+	while (tmp->next != pos){
+		tmp = tmp->next;
+	}
+	SLNode*cur = SLBuyNode(value);
+	tmp->next = cur;
+	cur->next = pos;
+	//SLNode*cur=SLBuyNode(value);
+	//for (SLNode*tmp = plist->first; tmp->next != NULL; tmp = tmp->next){
+	//	if (tmp->next == pos){
+	//		tmp->next = cur;
+	//		cur->next = pos;
+	//		return;
+	//	}
+	//}
 }

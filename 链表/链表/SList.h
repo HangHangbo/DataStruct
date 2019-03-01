@@ -13,22 +13,27 @@ typedef struct SList{
 }SList;
 //c初始化 
 void SListInit(SList* plist);
-//销毁
+//创建新的节点
 SLNode * SLBuyNode(SLDataType value);
+//销毁
 void  SListDestory(SList* plist);
 //头插
 void SListpushFront(SList* plist, SLDataType x);
 //尾插
 void SListpushAfter(SList* plist, SLDataType x);
 //在pos后边插入
-void SListIntsertAfter(SList* plist, SList* pos, SLDataType x);
+void SListInsertAfter(SList* plist, SLNode* pos, SLDataType x);
 //头删
 void SListpopFront(SList* plist);
 //尾删
 void SListpopBack(SList* plist);
 //将pos后面的加点删除
-void SListEraseAfter(SList* plist, SList* pos);
+void SListEraseAfter(SList* plist, SLNode* pos);
 //打印
 void SListPrint(const SList* plist);
 //查找
-SLDataType* SListFind(SList* plist, SLDataType x);
+SLNode* SListFind(const SList* plist, SLDataType x);
+//改
+void SLUpdate(SLNode *node, SLDataType value);
+//在pos前插入
+void SLInserBefore(SList*plist, SLNode*pos, SLDataType value);
